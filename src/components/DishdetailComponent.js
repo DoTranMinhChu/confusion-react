@@ -22,7 +22,7 @@ class DishDetail extends Component {
     renderComments({ comments }) {
         const comment = comments.map((item) => {
             return (
-                <div>
+                <div key={item.id}>
                     <p>{item.comment}</p>
                     <p>-- {item.author}, {dateFormat(item.date,"fullDate")}</p>
                 </div>
@@ -37,11 +37,12 @@ class DishDetail extends Component {
     }
     render() {
         if (this.props.dish != null) {
+         
             return (
                 <div className="container">
                     <div className="row">
                         <this.renderDishes dish={this.props.dish}></this.renderDishes>
-                        <this.renderComments comments={this.props.comments}></this.renderComments>
+                        <this.renderComments comments={this.props.dish.comments}></this.renderComments>
                     </div>
                 </div>
             )
