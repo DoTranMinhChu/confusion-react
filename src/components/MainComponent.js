@@ -3,6 +3,7 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
 import DishDetail from './DishdetailComponent';
+import About from './AboutComponent';
 import { Routes, Route, Navigate , useParams } from 'react-router-dom';
 import { Component } from 'react';
 import { DISHES } from '../shared/dish2';
@@ -54,6 +55,7 @@ class Main extends Component {
                     <Route exact path='/menu' element={<Menu dishes={this.state.dishes} />}></Route>
                     <Route exact path='/menu/:dishId' element={<this.DishWithId />}></Route>
                     <Route exact path='/contactus' element={<Contact />}></Route>
+                    <Route exact path='/aboutus' element={<About leaders={this.state.leaders}/>}></Route>
                     <Route path="*" element={<Navigate to="/menu" />} />
                 </Routes>
 
