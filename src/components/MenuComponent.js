@@ -1,5 +1,6 @@
 import { Card, CardImg, CardImgOverlay, CardTitle } from "reactstrap";
-
+import DishDetail from "./DishdetailComponent";
+import React, { useState } from 'react';
 
 function RenderMenuItem({ dish, onClick }) {
     return (
@@ -16,18 +17,25 @@ function RenderMenuItem({ dish, onClick }) {
 
 
 const Menu = (props) => {
-
+    const [selectedDish, setSelectedDish] = useState(null);
+    const handleShowDetail = (dish)=>{
+        setSelectedDish(dish)
+    }
     const menu = props.dishes.map(dish => {
         return (
-            <RenderMenuItem key={dish.id} dish={dish} onClick={props.onClick}></RenderMenuItem>
+            <RenderMenuItem key={dish.id} dish={dish} onClick={()=>handleShowDetail(dish)} ></RenderMenuItem>
         )
     })
     return (
-        <div className="container">
-            <div className="row">
-                {menu}
+        <>
+            <div className="container">
+                <div className="row">
+                    {menu}
+                </div>
             </div>
-        </div>
+            <DishDetail dish={selectedDish}></DishDetail>
+        </>
+
     )
 }
 
