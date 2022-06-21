@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component } from 'react';
 import { DISHES } from './shared/dish';
 import Main from './components/MainComponent';
+import { BrowserRouter } from 'react-router-dom';
 
 class App extends Component {
   constructor(props) {
@@ -13,9 +14,12 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <Main></Main>
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <Main></Main>
+        </div>
+      </BrowserRouter>
+
 
     );
   }
