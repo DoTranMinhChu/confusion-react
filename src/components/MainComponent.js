@@ -2,7 +2,8 @@ import Menu from './MenuComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import DishDetail from './DishdetailComponent';
+import { Routes, Route, Navigate , useParams } from 'react-router-dom';
 import { Component } from 'react';
 import { DISHES } from '../shared/dish2';
 import { COMMENTS } from '../shared/comments';
@@ -23,6 +24,7 @@ class Main extends Component {
     }
 
     HomePage = () => {
+   
         return (
             <Home
                 dish={this.state.dishes.filter(dish => dish.featured)[0]}
@@ -31,13 +33,26 @@ class Main extends Component {
             />
         )
     }
-    render() {
+    DishWithId = () => {
+        let { dishId } = useParams();
         return (
+            <DishDetail
+                dish={this.state.dishes.filter(dish => dish.id=== parseInt(dishId,10))[0]}
+                comments={this.state.comments.filter(comment => comment.dishId=== parseInt(dishId,10))}
+            />
+        )
+    }
+
+    render() {
+ 
+        return (
+
             <>
                 <Header />
                 <Routes>
                     <Route path='/home' element={<this.HomePage />} ></Route>
                     <Route exact path='/menu' element={<Menu dishes={this.state.dishes} />}></Route>
+                    <Route exact path='/menu/:dishId' element={<this.DishWithId />}></Route>
                     <Route exact path='/contactus' element={<Contact />}></Route>
                     <Route path="*" element={<Navigate to="/menu" />} />
                 </Routes>
