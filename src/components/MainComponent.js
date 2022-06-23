@@ -4,66 +4,58 @@ import Footer from './FooterComponent';
 import Home from './HomeComponent';
 import DishDetail from './DishdetailComponent';
 import About from './AboutComponent';
-import { Routes, Route, Navigate , useParams } from 'react-router-dom';
-import { Component } from 'react';
-import { DISHES } from '../shared/dish2';
-import { COMMENTS } from '../shared/comments';
-import { PROMOTIONS } from '../shared/promotions';
-import { LEADERS } from '../shared/leaders';
+import { Routes, Route, Navigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 import Contact from './ContactComponent';
-class Main extends Component {
+const Main = (props) => {
 
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            dishes: DISHES,
-            comments: COMMENTS,
-            promotions: PROMOTIONS,
-            leaders: LEADERS
+    const mapStateToProps = state => {
+        return {
+            dishes: state.dishes,
+            comments: state.comments,
+            promotions: state.promotions,
+            leaders: state.leaders
         }
     }
+    const state = useSelector(mapStateToProps)
 
-    HomePage = () => {
-   
+    const HomePage = () => {
         return (
             <Home
-                dish={this.state.dishes.filter(dish => dish.featured)[0]}
-                promotion={this.state.promotions.filter(promotion => promotion.featured)[0]}
-                leader={this.state.leaders.filter(leader => leader.featured)[0]}
+                dish={state.dishes.filter((dish) => dish.featured)[0]}
+                promotion={state.promotions.filter((promo) => promo.featured)[0]}
+                leader={state.leaders.filter((leader) => leader.featured)[0]}
             />
-        )
-    }
-    DishWithId = () => {
-        let { dishId } = useParams();
-        return (
-            <DishDetail
-                dish={this.state.dishes.filter(dish => dish.id=== parseInt(dishId,10))[0]}
-                comments={this.state.comments.filter(comment => comment.dishId=== parseInt(dishId,10))}
-            />
-        )
-    }
-
-    render() {
- 
-        return (
-
-            <>
-                <Header />
-                <Routes>
-                    <Route path='/home' element={<this.HomePage />} ></Route>
-                    <Route exact path='/menu' element={<Menu dishes={this.state.dishes} />}></Route>
-                    <Route exact path='/menu/:dishId' element={<this.DishWithId />}></Route>
-                    <Route exact path='/contactus' element={<Contact />}></Route>
-                    <Route exact path='/aboutus' element={<About leaders={this.state.leaders}/>}></Route>
-                    <Route path="*" element={<Navigate to="/menu" />} />
-                </Routes>
-
-                <Footer />
-            </>
-
         );
     }
+
+    const DishWithId = () => {
+        let { dishId } = useParams();
+        return (
+            <DishDetail dish={state.dishes.filter((dish) => dish.id === parseInt(dishId, 10))[0]}
+                comments={state.comments.filter((comment) => comment.dishId === parseInt(dishId, 10))} />
+        );
+    };
+
+    return (
+
+        <>
+            <Header />
+            <Routes>
+                <Route path='/home' element={<HomePage />} ></Route>
+                <Route exact path='/menu' element={<Menu dishes={state.dishes} />}></Route>
+                <Route exact path='/menu/:dishId' element={<DishWithId />}></Route>
+                <Route exact path='/contactus' element={<Contact />}></Route>
+                <Route exact path='/aboutus' element={<About leaders={state.leaders} />}></Route>
+                <Route path="*" element={<Navigate to="/menu" />} />
+            </Routes>
+
+            <Footer />
+        </>
+
+    );
 }
+
+
 
 export default Main;
